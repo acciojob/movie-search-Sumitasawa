@@ -36,28 +36,30 @@ const App = () => {
   return (
     <div className="container">
       <h1>Search Movie</h1>
-      <div className="search-bar">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault(); 
-            handleSearch();
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Search for a movie..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch();
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Search for a movie..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
 
       {error && <p className="error">{error}</p>}
 
-      <div className="movie-list">
+      {/* ✅ Movies List in UL */}
+      <ul className="movie-list">
         {movies.map((movie) => (
-          <div key={movie.imdbID} className="movie-card">
+          <li key={movie.imdbID} className="movie-card">
+            <h3>
+              {movie.Title} ({movie.Year})
+            </h3>
             <img
               src={
                 movie.Poster !== "N/A"
@@ -66,12 +68,9 @@ const App = () => {
               }
               alt={movie.Title}
             />
-            <h3>
-              {movie.Title} ({movie.Year})
-            </h3>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
