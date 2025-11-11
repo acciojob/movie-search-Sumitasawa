@@ -27,6 +27,7 @@ const App = () => {
         setError("Invalid movie name. Please try again.");
       }
     } catch (err) {
+      console.error(err);
       setError("Something went wrong. Please try again later.");
       setMovies([]);
     }
@@ -35,33 +36,40 @@ const App = () => {
   return (
     <div className="container">
       <h1>Search Movie</h1>
-
       <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); 
+            handleSearch();
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search for a movie..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
       </div>
 
       {error && <p className="error">{error}</p>}
 
       <div className="movie-list">
         {movies.map((movie) => (
-          <li>
-
-          <ul> 
           <div key={movie.imdbID} className="movie-card">
-            <h3>{movie.Title} ({movie.Year})</h3>
             <img
-              src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300"}
+              src={
+                movie.Poster !== "N/A"
+                  ? movie.Poster
+                  : "https://via.placeholder.com/200x300"
+              }
               alt={movie.Title}
             />
+            <h3>
+              {movie.Title} ({movie.Year})
+            </h3>
           </div>
-          </ul>
-           </li>
         ))}
       </div>
     </div>
